@@ -95,7 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.message),
+            const SizedBox(width: 8),
+            Text(widget.title),
+          ],
+        ),
       ),
       body: LayoutBuilder(builder: (context, constraints) {
         var isSmall = constraints.maxWidth < 600;
@@ -114,7 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     const Text(
                       'Digite o número do whatsapp',
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -122,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       inputFormatters: [maskWhatsappBR],
                       keyboardType: TextInputType.phone,
                       decoration: const InputDecoration(
-                        hintText: 'Digite o número do whatsapp',
+                        hintText: '(00) 00000-0000',
                       ),
                       validator: validateWhatsapp,
                     ),
@@ -131,6 +141,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      padding: const EdgeInsets.all(20),
+                    ),
                     onPressed: () {
                       _openWhats();
                     },
