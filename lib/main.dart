@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
 import 'package:url_launcher/url_launcher_string.dart';
 
 void main() {
@@ -35,9 +35,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controller = TextEditingController();
   final _key = GlobalKey<FormState>();
-  final maskWhatsappBR = MaskTextInputFormatter(
-    mask: '(##) #####-####',
-  );
 
   String? validateWhatsapp(String? value) {
     var normalizedPhone = value;
@@ -59,10 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _openWhats() async {
     if (_key.currentState!.validate()) {
       final String phone = _controller.text;
-      var normalizedPhone = phone.replaceAll('(', '');
-      normalizedPhone = normalizedPhone.replaceAll(')', '');
-      normalizedPhone = normalizedPhone.replaceAll('-', '');
-      normalizedPhone = normalizedPhone.replaceAll(' ', '');
+
+      var normalizedPhone = phone.replaceAll(RegExp(r'[^\d]'), '');
 
       final String url = 'https://wa.me/55$normalizedPhone';
       if (await canLaunchUrlString(url)) {
@@ -129,12 +124,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _controller,
-                      inputFormatters: [maskWhatsappBR],
                       keyboardType: TextInputType.phone,
                       decoration: const InputDecoration(
                         hintText: '(00) 00000-0000',
                       ),
-                      validator: validateWhatsapp,
                     ),
                   ],
                 ),
